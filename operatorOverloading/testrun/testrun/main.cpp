@@ -4,7 +4,9 @@
 //
 //  Created by anand on 29/05/14.
 //  Copyright (c) 2014 AnandSunku. All rights reserved.
-//  http://www.tutorialspoint.com/cplusplus/increment_decrement_operators_overloading.htm
+//  references
+//  1.    http://www.tutorialspoint.com/cplusplus/increment_decrement_operators_overloading.htm
+//  2.    effective c++ : Item 6:  Distinguish between prefix and postfix forms of increment and decrement operators.
 
 #include <iostream>
 
@@ -40,6 +42,9 @@ public:
     const Timetest operator++(int);
 //  prefix operator overloading
     Timetest& operator++();
+    
+    //equal to operator
+    void operator=(const Timetest& objRhs);
     
 public:
     //general purpose dump
@@ -109,6 +114,17 @@ Timetest& Timetest::operator++(){
     return *this;
 }
 
+//overload the equalto operator
+void Timetest::operator=(const Timetest& objRhs)
+{
+    cout<<"equal to operator called "<<endl;
+    
+    m_hour = objRhs.m_hour;
+    m_minutes = objRhs.m_minutes;
+}
+
+
+// function to test the copy constructor
 void TimeTester(const Timetest& objSource ){
     
     cout<<"this is the time tester function"<<endl;
@@ -150,6 +166,27 @@ int main(int argc, const char * argv[])
     // but we are not using the old object, we will see when that is going to get deleted.
     objPostfix++;
     
+    //next my guess
+    // now we need to receive an object that is
+    Timetest objTemp; // ordinary constructor gets called
+    
+    // 1. old object copy cons gets called
+    // 2. self increment the object
+    // 3. return the const object from the postfix function
+    // 4. now while receiving the same in objtemp
+    //      4.1 will the equal to operator be called or copy constructor be called?
+                //answer : mostly it is the equalto operator.
+ 
+    //it is like
+    //   objTemp.operator=(object returned by --> objPostfix.operator ++() );
+    //   1. first the ++ operator function is called
+    //   2. there is a object returned by the ++ operator function
+    //   3. = operator function is called with object returned by the ++ operator
+    //   4. once the equal (=) operator is finished, the destructor function of the object returned by the ++ operator is called
+    //   5. now the objTemp is available to the code.
+    objTemp = objPostfix++;
+    
+ 
     
     
     objPostfix.printyourself();
