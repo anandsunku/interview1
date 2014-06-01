@@ -44,7 +44,7 @@ public:
     Timetest& operator++();
     
     //equal to operator
-    void operator=(const Timetest& objRhs);
+    void operator=(Timetest objRhs);
     
 public:
     //general purpose dump
@@ -115,7 +115,7 @@ Timetest& Timetest::operator++(){
 }
 
 //overload the equalto operator
-void Timetest::operator=(const Timetest& objRhs)
+void Timetest::operator=(Timetest objRhs)
 {
     cout<<"equal to operator called "<<endl;
     
@@ -184,9 +184,20 @@ int main(int argc, const char * argv[])
     //   3. = operator function is called with object returned by the ++ operator
     //   4. once the equal (=) operator is finished, the destructor function of the object returned by the ++ operator is called
     //   5. now the objTemp is available to the code.
+    
+    // more deeper
+    // ++ operator of objPostfix
+    // const Timetest oldValue is returned
+    // const Timetest oldValue is now the parameter for objTemp.operator = ( const Timetest OldValue )
+    // so now
+    //      const Timetest OldValue is transforming to """const Timetest& objRhs"""
+    //
+    // now we should not be able to modify the objRhs
+    // the values are copied to the objTemp
+
+    
     objTemp = objPostfix++;
     
- 
     
     
     objPostfix.printyourself();
