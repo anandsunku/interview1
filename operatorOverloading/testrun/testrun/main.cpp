@@ -37,7 +37,7 @@ public:
     
 public:
 //  postfix operator overloading
-    Timetest operator++(int);
+    const Timetest operator++(int);
 //  prefix operator overloading
     Timetest& operator++();
     
@@ -85,23 +85,22 @@ void Timetest::printyourself(){
 }
 
 // overloading the postfix operator
-Timetest Timetest::operator++(int){
+// looks like for the postfix, we need to return the const object.
+const Timetest Timetest::operator++(int){
     
     //store the old value, increment internal value, return the object with old value
-    int oldhour, oldminutes;
+    Timetest oldvalue = *this;
     
     cout<<"post fix operator was called"<<endl;
+
+    ++(*this).m_hour;
+    ++(*this).m_minutes;
     
-    oldhour = m_hour;
-    oldminutes = m_minutes;
-    
-    m_hour++;
-    m_minutes++;
-    
-    return Timetest(oldhour,oldminutes);
+    return oldvalue;
 }
 
 //overloading the prefix operator
+// looks like for the prefix , we need to return the reference.
 Timetest& Timetest::operator++(){
     
     (*this).m_hour++;
@@ -140,14 +139,22 @@ int main(int argc, const char * argv[])
 //    basicTesting();
 //    objectTesting();
     
-    Timetest objPrefix(10,100);
+    Timetest objPostfix(10,10);
+    
+    // now increment the same, but not assign it anything.
+    // what is happening inside
+    //  1. it is creating an object for the previous value
+    //  2. incrementing the self
+    //  3. return the old object
+    // so, now we have this object being incremented.
+    // but we are not using the old object, we will see when that is going to get deleted.
+    objPostfix++;
     
     
-    //do you know this change github?
     
-    //this is the change in front of reena
+    objPostfix.printyourself();
     
-    
+    cout<<"end of the main function"<<endl;
     
     return 0;
 }
