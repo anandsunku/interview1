@@ -15,6 +15,8 @@ int main(int argc, const char * argv[])
     std::cout << "Hello, World!\n";
     
     //this is good
+    
+    //this is also good
     return 0;
 }
 
