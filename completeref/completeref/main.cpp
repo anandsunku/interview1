@@ -51,8 +51,12 @@ public:
     // 1. without reference in the parameter, again a copy constructor is called
     // 2. without a const in the parameter, mistaken changes can be made in the code
     // 3. should return a reference otherwise will end up in calling a copy constructor, again creating a object.
-    loc& operator=(const loc& objRhs); 
 
+    
+    // todo : need to analyze
+    //moral of the story :without const this fails in the client code.
+    
+    loc& operator=(const loc& objRhs);
 };
 
 
@@ -127,6 +131,14 @@ public:
         return *this;
     }
     
+    sappa& operator+(int ival){
+        
+        m_internal += ival;
+        
+        return *this;
+        
+    }
+    
     void show(){
         cout<<"m_internal = "<<m_internal<<endl;
     }
@@ -140,12 +152,8 @@ int main(int argc, const char * argv[])
     
     sappa ob1(20),ob2,ob3;
     
-    ob3 = ob2 = ob1;
-    
-    cout<<"now ob2"<<endl;
-    
-    ob2.show();
-    
+    ob3 = ob1 + 10;
+
     cout<<"now ob3"<<endl;
     
     ob3.show();
