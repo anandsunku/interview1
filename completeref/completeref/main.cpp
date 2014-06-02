@@ -42,7 +42,7 @@ public:
     }
     
     void show();
-    friend const loc operator+(const loc& op1,const loc&  op2);
+    friend loc operator+(const loc& op1,const loc&  op2);
 
     friend loc operator++(loc& op1);
     friend loc operator++(loc& op1,int);
@@ -51,8 +51,7 @@ public:
     // 1. without reference in the parameter, again a copy constructor is called
     // 2. without a const in the parameter, mistaken changes can be made in the code
     // 3. should return a reference otherwise will end up in calling a copy constructor, again creating a object.
-    //void operator=(const loc& objRhs);
-    loc& operator=(const loc& objRhs);
+    loc& operator=(const loc& objRhs); 
 
 };
 
@@ -63,7 +62,7 @@ void loc::show(){
 }
 
 //friend operator to loc class
-const loc operator+(const loc& op1, const loc& op2){
+loc operator+(const loc& op1, const loc& op2){
     
     loc temp;
     
@@ -95,7 +94,6 @@ loc operator++(loc& op1,int){
 
 
 //will this create new object, when the object is returned ?
-//void loc::operator=(const loc& objRhs){
 loc& loc::operator=(const loc& objRhs){
     
     latitude = objRhs.latitude;
@@ -106,12 +104,57 @@ loc& loc::operator=(const loc& objRhs){
     return *this;
 }
 
+
+class sappa {
+    int m_internal;
+    
+    
+    
+public:
+
+    sappa(){
+        m_internal = 10;
+    }
+    
+    sappa(int lhs){
+        m_internal = lhs;
+    }
+    
+    sappa& operator = (sappa& objrhs){
+        
+        m_internal =  objrhs.m_internal;
+        
+        return *this;
+    }
+    
+    void show(){
+        cout<<"m_internal = "<<m_internal<<endl;
+    }
+};
+
 int main(int argc, const char * argv[])
 {
 
     // insert code here...
     std::cout << "Hello, World!\n";
     
+    sappa ob1(20),ob2,ob3;
+    
+    ob3 = ob2 = ob1;
+    
+    cout<<"now ob2"<<endl;
+    
+    ob2.show();
+    
+    cout<<"now ob3"<<endl;
+    
+    ob3.show();
+    
+    return 0;
+}
+
+void testingunaryoperator()
+{
     loc ob1(10,10);
     
     ++ob1;
@@ -120,7 +163,6 @@ int main(int argc, const char * argv[])
     ob1++;
     ob1.show();
     
-    return 0;
 }
 
 void testingassignment()
@@ -133,7 +175,7 @@ void testingassignment()
      2. return the temp in operator +
      3. ob1.operator = ( temp )
      */
-    ob3 = ob1 = ob1 + ob2;
+    ob3 = ob1 = ob1 + ob2; //todo : need to revert back
     
     ob1.show();
     ob3.show();
