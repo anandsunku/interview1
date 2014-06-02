@@ -10,6 +10,9 @@
 
 using namespace std;
 
+
+void testingassignment();
+
 class loc {
     int longitude,latitude;
     
@@ -40,6 +43,9 @@ public:
     
     void show();
     friend const loc operator+(const loc& op1,const loc&  op2);
+
+    friend loc operator++(loc& op1);
+    friend loc operator++(loc& op1,int);
     
     //equal to operator
     // 1. without reference in the parameter, again a copy constructor is called
@@ -47,7 +53,7 @@ public:
     // 3. should return a reference otherwise will end up in calling a copy constructor, again creating a object.
     //void operator=(const loc& objRhs);
     loc& operator=(const loc& objRhs);
-    
+
 };
 
 
@@ -69,6 +75,24 @@ const loc operator+(const loc& op1, const loc& op2){
     return temp;
 }
 
+//im gonna make the ++ operator as a friend to the loc class
+loc operator++(loc& op1){
+    
+    op1.latitude++;
+    op1.longitude++;
+    
+    return op1;
+}
+
+loc operator++(loc& op1,int){
+    
+    op1.latitude++;
+    op1.longitude++;
+    
+    return op1;
+}
+
+
 
 //will this create new object, when the object is returned ?
 //void loc::operator=(const loc& objRhs){
@@ -88,8 +112,21 @@ int main(int argc, const char * argv[])
     // insert code here...
     std::cout << "Hello, World!\n";
     
-    loc ob1(10,20), ob2(5,30), ob3(9,9);
+    loc ob1(10,10);
+    
+    ++ob1;
+    ob1.show();
+    
+    ob1++;
+    ob1.show();
+    
+    return 0;
+}
 
+void testingassignment()
+{
+    loc ob1(10,20), ob2(5,30), ob3(9,9);
+    
     cout<<"\n\n\n"<<"about to call--> ob1 = ob1 + ob2;  "<<endl;
     /*
      1. ob1. operator + ( ob2 );
@@ -107,6 +144,6 @@ int main(int argc, const char * argv[])
     ob3.show();
     
 
-    return 0;
 }
+
 
