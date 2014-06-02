@@ -22,6 +22,12 @@ public:
         latitude = lt;
     }
     
+    void setlatlon(int lat, int lon){
+        latitude = lat;
+        longitude = lon;
+    }
+    
+    
     loc(const loc& objSource){
         
         cout<<"copy constructor of loc is called "<<endl;
@@ -37,6 +43,7 @@ public:
     // 1. without reference in the parameter, again a copy constructor is called
     // 2. without a const in the parameter, mistaken changes can be made in the code
     // 3. should return a reference otherwise will end up in calling a copy constructor, again creating a object.
+    //void operator=(const loc& objRhs);
     loc& operator=(const loc& objRhs);
 };
 
@@ -57,6 +64,7 @@ loc operator+(const loc& op1, const loc& op2){
 }
 
 //will this create new object, when the object is returned ?
+//void loc::operator=(const loc& objRhs){
 loc& loc::operator=(const loc& objRhs){
     
     latitude = objRhs.latitude;
@@ -73,7 +81,7 @@ int main(int argc, const char * argv[])
     // insert code here...
     std::cout << "Hello, World!\n";
     
-    loc ob1(10,20), ob2(5,30);
+    loc ob1(10,20), ob2(5,30), ob3(9,9);
 
     cout<<"\n\n\n"<<"about to call--> ob1 = ob1 + ob2;  "<<endl;
     /*
@@ -81,11 +89,39 @@ int main(int argc, const char * argv[])
      2. return the temp in operator +
      3. ob1.operator = ( temp )
      */
-    ob1 = ob1 + ob2;
+    ob3 = ob1 = ob1 + ob2;
     
     ob1.show();
+    ob3.show();
+    
+    ob1.setlatlon(990, 990);
+    
+    cout<<"\n\n"<<"this should not be 990,990"<<endl;
+    ob3.show();
     
 
     return 0;
 }
 
+/*
+Output of the above code
+ 
+ Hello, World!
+ 
+ 
+ about to call--> ob1 = ob1 + ob2;
+ 
+ about to return a *this in operator =
+ 
+ about to return a *this in operator =
+ 15 50
+ 15 50
+ 
+ this should not be 990,990
+ 15 50
+ Program ended with exit code: 0
+
+
+
+
+*/
