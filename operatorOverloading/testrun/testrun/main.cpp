@@ -7,6 +7,7 @@
 //  references
 //  1.    http://www.tutorialspoint.com/cplusplus/increment_decrement_operators_overloading.htm
 //  2.    effective c++ : Item 6:  Distinguish between prefix and postfix forms of increment and decrement operators.
+//  3.    c++ complete reference : chapter 15: operator overloading , page no : 393
 
 #include <iostream>
 
